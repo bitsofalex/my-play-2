@@ -46,4 +46,4 @@ logger.play=INFO
 logger.application=DEBUG
 
 # Google API
-google.places.key=something
+google.places.key=insertkeyhere
