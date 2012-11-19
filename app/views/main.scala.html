@@ -1,15 +1,62 @@
 @(title: String)(content: Html)
 
+
 <!DOCTYPE html>
 
-<html>
+<html ng-app="myServices">
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap/responsive.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/style.min.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/lib/angular/angular.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/lib/angular/angular-resource.min.js")" type="text/javascript"></script>
+        <script src="@routes.Application.javascriptRoutes"type="text/javascript" ></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkjNz8HJE7ztOvthnNKevejzUjm-1mz3U&sensor=false" type="text/javascript"></script>
     </head>
     <body>
         @content
     </body>
+    <script>
+    	angular.module('myServices', ['ngResource']).
+    		factory('Test', function($resource) {
+    			return $resource('@routes.Application.bodyAsJson', {}, {
+    				query: {method:'POST', params:{text: '@@nameId', done: '@@doneId'}, isArray: true}
+    			});
+    		});
+    </script>
+    <script src="@routes.Assets.at("javascripts/controllers.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap-typeahead.js")" type="text/javascript"></script>
+    <script>
+    	$('#search').typeahead({
+    		menu: '<ul class="typeahead dropdown-menu magic"></ul>',
+    		minLength: 3,
+    		source: function(query, process) {
+    			var keyword = $('#search').val();
+    			return jsRoutes.controllers.SearchController.suggestion(keyword).ajax({
+                    success: function(json) {
+                        return process(json.options);
+                    },
+                    error: function() {
+                        alert("error");
+                    }
+                });
+    		}
+    	});
+    </script>
+    <script>
+        $(document).ready(function() {
+            var mapOptions = {
+                center: new google.maps.LatLng(-34.397, 150.644),
+                zoom: 8,
+                mapTypeControlOptions: {
+                    mapTypeIds: []
+                },
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        });
+    </script>
 </html>

@@ -1,7 +1,17 @@
-@(message: String)
+@(message: String, searchForm: Form[String])
 
-@main("Welcome to Play 2.0") {
-    
-    @play20.welcome(message)
-    
+@import helper._
+
+@main("Fibi") {
+	<div class="container" ng-controller="TodoCtrl">
+        <div>
+            <div id="map-canvas"></div>
+        </div>
+		<div class="full-search-bar">
+			@form(routes.Application.search) {
+				<input id="search" name="search" class="xlarge" type="text" placeholder="Doctor Pediatrician" autocomplete="off">
+				<button class="btn btn-large btn-inverse" id="search-submit" type="submit"><i class="icon-search icon-white"></i></button>
+			}
+		</div>
+    </div>
 }
