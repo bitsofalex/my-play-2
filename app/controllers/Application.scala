@@ -14,10 +14,10 @@ import play.api.data.Forms._
 import java.net.URLEncoder._
 import play.api.Play._
 import play.api.Routes
+import util.Configuration
 
 object Application extends Controller {
 
-  val googlePlacesKey = current.configuration.getString("google.places.key").mkString
 
   val searchForm = Form("search" -> text)
 
@@ -58,7 +58,7 @@ object Application extends Controller {
           val svc = url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?types=doctor&sensor=false")
             .addQueryParameter("location", "-37.7833,144.9667")
             .addQueryParameter("keyword", encode(search, "UTF-8"))
-            .addQueryParameter("key", googlePlacesKey)
+            .addQueryParameter("key", Configuration.googlePlacesKey)
             .addQueryParameter("radius", "500")
           val response = Http(svc OK as.String)()
           val results = Json.parse(response)
