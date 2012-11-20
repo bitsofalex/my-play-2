@@ -1,0 +1,17 @@
+@(message: String, searchForm: Form[String])
+
+@import helper._
+@import tags._
+
+@main("My Play 2") {
+    @map()
+	<div class="container">
+		<div class="full-search-bar">
+			@form(routes.GooglePlacesController.search) {
+				<input id="search" name="search" class="xlarge" type="text" placeholder="Stuff" autocomplete="off">
+				<button class="btn btn-large btn-inverse" id="search-submit" type="submit"><i class="icon-search icon-white"></i></button>
+			}
+		</div>
+    </div>
+}
+@mapsjs()

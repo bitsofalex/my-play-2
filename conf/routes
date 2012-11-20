@@ -4,13 +4,20 @@
 
 # Home page
 GET     /                           controllers.Application.index
+
+# Javascript Routes
 GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes
 
-POST	/bodyastext					controllers.Application.bodyAsText
-POST	/bodyasjson					controllers.Application.bodyAsJson
+# AngularJS Example
+GET     /angularjs                  controllers.ScalaJsonController.show
+POST	/bodyastext					controllers.ScalaJsonController.bodyAsText
+POST	/bodyasjson					controllers.ScalaJsonController.bodyAsJson
 
-GET		/typeahead					controllers.SearchController.suggestion(keyword)
-POST	/search						controllers.Application.search
+# Google Places API Example
+GET     /googleplaces               controllers.GooglePlacesController.show
+POST	/search						controllers.GooglePlacesController.search
+# Twitter Bootstrap typeahead Example integrated with Google Place API
+GET		/typeahead					controllers.GooglePlacesController.suggestion(keyword)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

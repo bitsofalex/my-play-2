@@ -1,17 +1,12 @@
-@(message: String, searchForm: Form[String])
+@(message: String)
 
 @import helper._
 
 @main("My Play 2") {
-	<div class="container" ng-controller="TodoCtrl">
-        <div>
-            <div id="map-canvas"></div>
-        </div>
-		<div class="full-search-bar">
-			@form(routes.Application.search) {
-				<input id="search" name="search" class="xlarge" type="text" placeholder="Stuff" autocomplete="off">
-				<button class="btn btn-large btn-inverse" id="search-submit" type="submit"><i class="icon-search icon-white"></i></button>
-			}
-		</div>
-    </div>
+
+    <ul>
+        <li><a href="@routes.ScalaJsonController.show">ScalaJson</a></li>
+        <li><a href="@routes.GooglePlacesController.show">Google Place API</a></li>
+    </ul>
+
 }

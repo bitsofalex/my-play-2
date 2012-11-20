@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 
-<html ng-app="myServices">
+<html>
     <head>
         <title>@title</title>
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.min.css")">
@@ -22,7 +22,7 @@
     <script>
     	angular.module('myServices', ['ngResource']).
     		factory('Test', function($resource) {
-    			return $resource('@routes.Application.bodyAsJson', {}, {
+    			return $resource('@routes.ScalaJsonController.bodyAsJson', {}, {
     				query: {method:'POST', params:{text: '@@nameId', done: '@@doneId'}, isArray: true}
     			});
     		});
@@ -30,12 +30,13 @@
     <script src="@routes.Assets.at("javascripts/controllers.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap-typeahead.js")" type="text/javascript"></script>
     <script>
+        // twitter bootstrap typeahead example
     	$('#search').typeahead({
     		menu: '<ul class="typeahead dropdown-menu magic"></ul>',
     		minLength: 3,
     		source: function(query, process) {
     			var keyword = $('#search').val();
-    			return jsRoutes.controllers.SearchController.suggestion(keyword).ajax({
+    			return jsRoutes.controllers.GooglePlacesController.suggestion(keyword).ajax({
                     success: function(json) {
                         return process(json.options);
                     },
@@ -45,18 +46,5 @@
                 });
     		}
     	});
-    </script>
-    <script>
-        $(document).ready(function() {
-            var mapOptions = {
-                center: new google.maps.LatLng(-34.397, 150.644),
-                zoom: 8,
-                mapTypeControlOptions: {
-                    mapTypeIds: []
-                },
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-        });
     </script>
 </html>

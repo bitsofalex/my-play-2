@@ -7,7 +7,4 @@ package models
  * Time: 5:31 PM
  * To change this template use File | Settings | File Templates.
  */
-class ServiceProvider(id: String, name: String) {
 
-  def myName: String = name
-}
