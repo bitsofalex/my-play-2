@@ -1,7 +1,10 @@
 @(message: String)
 
+@import tags._
+
 @main("Geolocation Example") {
 
+    @map()
 
 }
 <script>
@@ -22,6 +25,20 @@
                                 country = address_component.long_name;
                             }
                         });
+                        var mapOptions = {
+                            center: new google.maps.LatLng(lat, lng),
+                            zoom: 12,
+                            mapTypeControlOptions: {
+                            mapTypeIds: []
+                        },
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                       };
+                        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+                        var markerOptions = {
+                            position: new google.maps.LatLng(lat, lng)
+                        };
+                        var marker = new google.maps.Marker(markerOptions);
+                        marker.setMap(map);
                         alert('Your latitude is '+lat+' and longitude is '+lng + ', your city is ' + city + ' and your country is ' + country);
                     });
 
