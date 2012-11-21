@@ -1,0 +1,36 @@
+@(message: String)
+
+@main("Geolocation Example") {
+
+
+}
+<script>
+    $(function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    $.get('@routes.GeolocationController.lookupCityWithCoordinates', { latlng: lat + ',' + lng}, function(json) {
+                        var city, country;
+                        var addresses = json.results[0].address_components;
+                        $.each(addresses, function(i, address_component) {
+                            if (address_component.types[0] == "locality") {
+                                city = address_component.long_name;
+                            }
+                            if (address_component.types[0] == "country") {
+                                country = address_component.long_name;
+                            }
+                        });
+                        alert('Your latitude is '+lat+' and longitude is '+lng + ', your city is ' + city + ' and your country is ' + country);
+                    });
+
+                },
+                function() {
+                    alert('Error!');
+                });
+        } else {
+            alert('Geolocation is required for this page, but your browser doesn&apos;t support it. Try it with a browser that does, such as Opera 10.60.');
+        }
+    })
+</script>

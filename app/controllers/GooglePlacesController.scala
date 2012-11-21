@@ -49,10 +49,10 @@ object GooglePlacesController extends Controller {
         errors => BadRequest(""),
         search => {
           val svc = url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=false")
-            .addQueryParameter("location", "-37.7833,144.9667")
-            .addQueryParameter("keyword", encode(search, "UTF-8"))
+            .addQueryParameter("location", "-37.8210,145.1250")
+            .addQueryParameter("keyword", encode(sanitize(search), "UTF-8"))
             .addQueryParameter("key", Configuration.googlePlacesKey)
-            .addQueryParameter("radius", "2000")
+            .addQueryParameter("radius", "5000")
           val response = Http(svc OK as.String)()
           val results = (Json.parse(response) \ "results").asOpt[List[ServiceProvider]]
           Ok(Json.toJson(results))
@@ -62,7 +62,7 @@ object GooglePlacesController extends Controller {
   def suggestion(keyword: String) = Action {
     request =>
       val svc = url("https://maps.googleapis.com/maps/api/place/autocomplete/json?types=establishment&sensor=false")
-        .addQueryParameter("location", "-37.7833,144.9667")
+        .addQueryParameter("location", "-37.8210,145.1250")
         .addQueryParameter("input", encode(request.queryString("keyword").mkString, "UTF-8"))
         .addQueryParameter("key", Configuration.googlePlacesKey)
         .addQueryParameter("radius", "500")
@@ -70,4 +70,9 @@ object GooglePlacesController extends Controller {
       val suggestions = Json.parse(response) \ "predictions" \\ "description"
       Ok(Json.toJson(Map("options" -> suggestions)))
   }
+
+  def sanitize(keyword: String) = keyword.map(_.toLower match {
+    case c if (('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || (c == '"')) => c
+    case _ => ' '
+  }).mkString.trim
 }
