@@ -35,11 +35,12 @@
                        };
                         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
                         var markerOptions = {
-                            position: new google.maps.LatLng(lat, lng)
+                            position: new google.maps.LatLng(lat, lng),
+                            title: 'Your latitude is '+lat+' and longitude is '+lng + ', your city is ' + city + ' and your country is ' + country
                         };
                         var marker = new google.maps.Marker(markerOptions);
                         marker.setMap(map);
-                        alert('Your latitude is '+lat+' and longitude is '+lng + ', your city is ' + city + ' and your country is ' + country);
+                        // alert('Your latitude is '+lat+' and longitude is '+lng + ', your city is ' + city + ' and your country is ' + country);
                     });
 
                 },
